@@ -1,0 +1,26 @@
+name: Run Auto-Builder
+
+on:
+  workflow_dispatch:
+
+jobs:
+  auto-builder:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Make builder executable
+        run: chmod +x scripts/init.sh
+
+      - name: Run Auto-Builder
+        run: ./scripts/init.sh
+
+      - name: Commit generated structure
+        run: |
+          git config user.email "builder@simplegit.com"
+          git config user.name "SimpleGit Builder"
+          git add .
+          git commit -m "Auto-Build: Created folder structure"
+          git push
